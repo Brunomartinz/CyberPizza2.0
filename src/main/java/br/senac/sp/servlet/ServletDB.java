@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sp.senac.sp.servlet;
+package br.senac.sp.servlet;
 
 import br.senac.sp.bd.ConexaoDB;
 import br.senac.sp.dao.ClienteDAO;

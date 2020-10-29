@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sp.senac.sp.servlet.ServletDB;
+import br.senac.sp.servlet.ServletDB;
 
 /**
  *
  * @author Bruno Martins
  */
-public   class ClienteDAO {
+public class ClienteDAO {
 
     public static List<Cliente> getClientes() {
         List<Cliente> listaClientes = new ArrayList();
@@ -35,9 +35,8 @@ public   class ClienteDAO {
                 String nome = rs.getString("nome");
                 String email = rs.getString("email");
                 long cpf = rs.getLong("cpf");
-                
-                
-                listaClientes.add(new Cliente(nome,email,cpf));
+
+                listaClientes.add(new Cliente(nome, email, cpf));
             }
 
         } catch (ClassNotFoundException ex) {
@@ -47,5 +46,54 @@ public   class ClienteDAO {
         }
         return listaClientes;
 
+    }
+
+    //#QUERY PARA ADICIONAR NOVO CLIENTE
+    public static void addCliente(Cliente cliente) throws SQLException, ClassNotFoundException {
+
+        Connection con = ConexaoDB.getConexao();
+        String query = "insert into cliente(nome,email,cpf) values (?,?,?)";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, cliente.getNome());
+        ps.setString(2, cliente.getEmail());
+        ps.setLong(3, cliente.getCpf());
+        ps.execute();
+
+    }
+
+    //QUERY PARA ALTERAR OS DADOS DO CLIENTE
+    public static void updateCliente(Cliente cliente) throws ClassNotFoundException, SQLException {
+
+        Connection con = ConexaoDB.getConexao();
+        String query = "update cliente set nome=?,email=? where cpf=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, cliente.getNome());
+        ps.setString(2, cliente.getEmail());
+        ps.setLong(3, cliente.getCpf());
+
+        ps.execute();
+
+    }
+
+    public static Cliente getCliente(Long cpf) {
+        Cliente cliente = null;
+        try {
+            Connection con = ConexaoDB.getConexao();
+            String query = "select * from cliente where cpf=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setLong(1, cpf);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                cliente = new Cliente(nome, email, cpf);
+
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ServletDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cliente;
+
+        //
     }
 }

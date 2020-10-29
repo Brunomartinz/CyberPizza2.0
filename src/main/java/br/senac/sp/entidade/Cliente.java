@@ -7,9 +7,16 @@ package br.senac.sp.entidade;
 
 public class Cliente {
 
+    public static void updateCliente(Cliente cliente) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private String nome;
     private String email;
     private long cpf;
+
+   
+   
 
     public long getCpf() {
         return cpf;
@@ -19,10 +26,11 @@ public class Cliente {
         this.cpf =  cpf;
     }
 
-    public Cliente(String nome, String email,long cpf) {
+    public Cliente(String nome, String email,long cpf){
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
+      
     }
 
     public String getNome() {
@@ -40,6 +48,9 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
+
+ 
+    
 
     @Override
     public String toString() {
